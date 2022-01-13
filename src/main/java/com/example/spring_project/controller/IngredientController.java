@@ -3,7 +3,6 @@ package com.example.spring_project.controller;
 import com.example.spring_project.dto.IngredientRequest;
 import com.example.spring_project.mapper.IngredientMapper;
 import com.example.spring_project.model.Ingredient;
-import com.example.spring_project.model.Recipe;
 import com.example.spring_project.service.IngredientService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,22 +29,20 @@ public class IngredientController {
     public ResponseEntity<Ingredient> addIngredient(
             @Valid
             @RequestBody IngredientRequest ingredientRequest) {
-        Ingredient ingredient = ingredientMapper.ingredientRequestToIngredient(ingredientRequest);
-        ingredientService.addIngredient(ingredient);
+        Ingredient ingredient = ingredientService.addIngredient(
+                ingredientMapper.ingredientRequestToIngredient(ingredientRequest));
         return ResponseEntity
-                .created(null)
-                .build();
+                .created(URI.create("/api/ingredients/" + ingredient.getId())).body(ingredient);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateIngredient(
+    public ResponseEntity<Ingredient> updateIngredient(
             @Valid
             @RequestBody IngredientRequest ingredientRequest,
             @PathVariable Long id) {
         Ingredient ingredient = ingredientMapper.ingredientRequestToIngredient(ingredientRequest);
         ingredient.setId(id);
-        ingredientService.updateIngredient(ingredient);
-        return new ResponseEntity<String>("Ingredient was updated successfully.", HttpStatus.OK);
+        return ResponseEntity.ok(ingredientService.updateIngredient(ingredient));
     }
 
     @GetMapping
@@ -58,13 +55,13 @@ public class IngredientController {
     }
 
     @GetMapping("/{id}")
-    public Ingredient getIngredient(@PathVariable Long id) {
-        return ingredientService.getIngredient(id);
+    public Ingredient getIngredientById(@PathVariable Long id) {
+        return ingredientService.getIngredientById(id);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteIngredient(@PathVariable Long id) {
+    public ResponseEntity<String> deleteIngredientById(@PathVariable Long id) {
         ingredientService.deleteIngredientById(id);
-        return new ResponseEntity<>("Tutorial was deleted successfully.", HttpStatus.OK);
+        return new ResponseEntity<>("Ingredient  was deleted successfully.", HttpStatus.OK);
     }
 }

@@ -1,17 +1,15 @@
 package com.example.spring_project.dto;
 
+import com.example.spring_project.model.Type;
+
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotNull;
 
-public class IngredientRequest {
+public class TypeRequest {
     @NotBlank(message = "Request body should contain JSON with key name and a valid String value")
-    @NotNull()
+    @NotNull
     private String name;
-
-    public IngredientRequest(String name) {
-        this.name = name;
-    }
-    public IngredientRequest() {
+    public TypeRequest() {
 
     }
 
@@ -20,6 +18,10 @@ public class IngredientRequest {
     }
 
     public void setName(String name) {
+        this.name = name;
+    }
+
+    public TypeRequest(String name) {
         this.name = name;
     }
 }

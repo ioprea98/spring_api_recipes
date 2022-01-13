@@ -1,30 +1,22 @@
-package com.example.spring_project.model;
+package com.example.spring_project.dto;
 
-public class Recipe {
-    private long id;
+import javax.validation.constraints.NotBlank;
+
+public class RecipeRequest {
+    @NotBlank
     private String name;
+    @NotBlank
     private String description;
+    @NotBlank
     private String time;
 
-    public Recipe(long id, String name, String description, String time) {
-        this.id = id;
+    public RecipeRequest() {
+    }
+
+    public RecipeRequest(String name, String description, String time) {
         this.name = name;
         this.description = description;
         this.time = time;
-    }
-
-    public Recipe(String name, String description, String time) {
-        this.name = name;
-        this.description = description;
-        this.time = time;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getName() {
