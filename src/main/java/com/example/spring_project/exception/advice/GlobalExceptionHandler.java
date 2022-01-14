@@ -8,6 +8,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.LocalDateTime;
 
 @ControllerAdvice
@@ -19,7 +20,8 @@ public class GlobalExceptionHandler {
                 .body(exception.getMessage() + " at " + LocalDateTime.now());
     }
 
-    @ExceptionHandler({MethodArgumentNotValidException.class, EntityAlreadyExists.class})
+    @ExceptionHandler({MethodArgumentNotValidException.class, EntityAlreadyExists.class,
+            SQLIntegrityConstraintViolationException.class})
     public ResponseEntity<String> handle(Exception e) {
         return ResponseEntity.badRequest().body(e.getMessage());
     }

@@ -1,8 +1,11 @@
 package com.example.spring_project.controller;
 
+import com.example.spring_project.dto.RecipeIngredientsRequest;
 import com.example.spring_project.dto.RecipeRequest;
 import com.example.spring_project.mapper.RecipeMapper;
 import com.example.spring_project.model.Recipe;
+import com.example.spring_project.model.RecipeIngredient;
+import com.example.spring_project.model.RecipeIngredientsDetails;
 import com.example.spring_project.service.RecipeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +39,18 @@ public class RecipeController {
                 .created(URI.create("/api/recipes/" + recipe.getId())).body(recipe);
     }
 
+    @PostMapping("/{id}/ingredients")
+    public ResponseEntity<RecipeIngredient> addIRecipeIngredient(
+            @Valid
+            @RequestBody RecipeIngredientsRequest recipeIngredientsRequest,
+            @PathVariable Long id) {
+        RecipeIngredient recipeIngredient = recipeMapper.recipeIngredientRequestToRecipeIngredient(
+                recipeIngredientsRequest);
+        recipeIngredient.setRecipeId(id);
+        return ResponseEntity
+                .created(URI.create("")).body(recipeService.addRecipeIngredient(recipeIngredient));
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<Recipe> updateRecipe(
             @Valid
@@ -58,6 +73,11 @@ public class RecipeController {
     @GetMapping("/{id}")
     public Recipe getRecipe(@PathVariable Long id) {
         return recipeService.getRecipe(id);
+    }
+
+    @GetMapping("/{id}/ingredients")
+    public ResponseEntity<RecipeIngredientsDetails> getRecipeIngredients(@PathVariable Long id) {
+        return ResponseEntity.ok(recipeService.getRecipeIngredients(id));
     }
 
 }
