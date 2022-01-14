@@ -58,7 +58,4 @@ public class RecipeRepository {
         return jdbcTemplate.query(sql, mapper);
     }
 
-//    public int deleteRecipeById(Long id) {
-//        return jdbcTemplate.update("DELETE FROM recipes WHERE id=?", id);
-//    }
 }
